@@ -4,12 +4,6 @@ object-assign
 @license MIT
 */
 
-/*!
-  * Bootstrap v5.1.1 (https://getbootstrap.com/)
-  * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-  */
-
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -70,7 +64,5 @@ PERFORMANCE OF THIS SOFTWARE.
 //! moment-timezone.js
 
 //! moment.js
-
-//! moment.js locale configuration
 
 //! version : 0.5.34
