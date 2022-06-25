@@ -18,7 +18,7 @@
         values: new Set(),
       }));
       let dataPromise = fetch(
-        "http://youngfrog.lavnir.be/test-horaires/events.json"
+        "https://youngfrog.lavnir.be/test-horaires/events.json"
       );
       let contentLoadedPromise = new Promise(function (res, rej) {
         document.addEventListener("DOMContentLoaded", res, { once: true });
