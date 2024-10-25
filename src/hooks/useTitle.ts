@@ -11,7 +11,7 @@ function useTitle(resource?: Resource) {
     const defaultTitle = 'ESI Horaires'
 
     document.title = resource
-      ? `${resource.name} - ${defaultTitle}`
+      ? `${resource.name ?? resource.code} - ${defaultTitle}`
       : defaultTitle
   }, [resource])
 }

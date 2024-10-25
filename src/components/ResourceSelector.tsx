@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { CalendarConfig } from '../utils/fetchCalendars'
-import { Nullable, mapObject } from '../utils/types'
+import { Nullable } from '../utils/types'
 import Select from './Select'
 
 interface ResourceSelectorProps {
@@ -19,8 +19,10 @@ const ResourceSelector = (props: ResourceSelectorProps): JSX.Element => {
   const nextResource = useCallback(
     (delta: number) => {
       if (!(categoryKey && resourceKey)) return
-      const resourceKeys = Object.keys(config.data[categoryKey].items)
-      return resourceKeys[resourceKeys.indexOf(resourceKey) + delta]
+      const resourceIndex = config.data[categoryKey].items.findIndex(
+        item => item.code === resourceKey
+      )
+      return config.data[categoryKey].items[resourceIndex + delta].code
     },
     [categoryKey, config.data, resourceKey]
   )
@@ -75,7 +77,10 @@ const ResourceSelector = (props: ResourceSelectorProps): JSX.Element => {
                   selectionHandler={newcat => {
                     switchToResource(undefined, newcat)
                   }}
-                  items={mapObject(config.data, (k, v) => v.name)}
+                  items={Object.keys(config.data).map(key => [
+                    key,
+                    config.data[key].name
+                  ])}
                 />
                 {selectedCategory && (
                   <Select
@@ -85,7 +90,10 @@ const ResourceSelector = (props: ResourceSelectorProps): JSX.Element => {
                       setWantExpanded(false)
                       switchToResource(key, categoryKey || undefined)
                     }}
-                    items={mapObject(selectedCategory.items, (k, v) => v.name)}
+                    items={selectedCategory.items.map(item => [
+                      item.code,
+                      item.name ?? item.code
+                    ])}
                   />
                 )}
               </div>

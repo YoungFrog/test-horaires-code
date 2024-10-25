@@ -36,18 +36,20 @@ wget -O- https://github.com/HEB-ESI/heb-esi.github.io/archive/refs/heads/gh-page
  tar -zx --strip-components=1 heb-esi.github.io-gh-pages/ical heb-esi.github.io-gh-pages/config
 ```
 
+Alternatively you can generate them yourself from the ics (see the ics repo).
+
 To compile (the compiled files will be generated in the `./dist` directory)
 
 ```bash
 $ yarn build # Production
-$ yarn dev # Development
+$ yarn dev   # Development
 $ yarn watch # Dev + watch for changes
 ```
 
 Alternatively, you can serve locally :
 
 ```bash
-$ yarn serve
+$ yarn serve # Dev + watch + serve
 ```
 
 Pull requests and issues are welcome. 
@@ -62,7 +64,7 @@ Les événements sont obtenus via des fichiers iCalendar (.ics) généralement
 rangés dans une arborescence du type :
 
 ```
-ical/2021-2022/q2
+ical/
 ├── cours
 │   ├── AGLR4.ics
 │   ├── ...
@@ -72,9 +74,9 @@ ical/2021-2022/q2
 │   ├── ...
 │   └── SEC4B.ics
 ├── profs
-│   ├── ABS_ABSIL_Romain.ics
+│   ├── ABS.ics
 │   ├── ...
-│   └── YVO_VOGLAIRE_Yannick.ics
+│   └── YVO.ics
 └── salles
     ├── 003.ics
     ├── ...
@@ -102,77 +104,55 @@ Le fichier de configuration `calendars.json` ressemble a ceci:
 ```json
 {
     "default": "groupes",
-    "root": "ical/2021-2022/q2",
+    "root": "ical/",
     "data": {
-        "cours": {
-            "key": "cours",
-            "name": "Cours",
-            "items": {
-                "ALG3": {
-                    "key": "ALG3",
-                    "name": "ALG3",
-                    "calendar": "cours/ALG3.ics"
-                }
-            }
+        "profs": {
+            "name": "enseignants",
+            "items": [
+                {
+                    "name": "JLE - Juste Leblanc",
+                    "code": "JLE"
+                },
+            ]
         },
         "groupes": {
-            "key": "groupes",
-            "name": "Groupes",
-            "items": {
-                "E21": {
-                    "key": "E21",
-                    "name": "E21",
-                    "calendar": "groupes/E21.ics"
-                }
-            }
-        },
-        "profs": {
-            "key": "profs",
-            "name": "Profs",
-            "items": {
-                "ABS": {
-                    "key": "ABS",
-                    "name": "Romain Absil",
-                    "calendar": "profs/ABS_ABSIL_Romain.ics"
-                }
-            }
+            "name": "groupes",
+            "items": [
+                {
+                    "name": "A341",
+                    "code": "A341"
+                },
+            ]
         },
         "salles": {
-            "key": "salles",
-            "name": "Salles",
-            "items": {
-                "004": {
-                    "key": "004",
-                    "name": "004",
-                    "calendar": "salles/004.ics"
-                }
-            }
+            "name": "salles",
+            "items": [
+                {
+                    "name": "101",
+                    "code": "101"
+                },
+            ]
+        },
+        "cours": {
+            "name": "cours",
+            "items": [
+                {
+                    "name": "Algorithmique 1",
+                    "code": "1ALG1A"
+                },
+            ]
         }
     }
 }
 ```
 
-Veuillez respecter les points suivants si vous voulez survivre :
+- Le `name` est affiché à l'écran
+- Le `code` est utilisé en interne et pour les liens
+- Le `code` est également utilisé pour obtenir le nom du fichier iCalendar :
+  `{root}/{category}/{code}.ics` où `root` est défini en début de json, `category` est l'une des quatre catégories, et `code` est le code de l'élément
+- Le `code` doit être unique au sein de sa catégorie, et devrait être unique sur tout le fichier.
 
-- Les elements `key` doivent impérativement être uniques dans tout le fichier
-- Les elements `key` doivent uniquement contenir des caractères de type `A-Z`, `a-z` ou `-`
-- Les liens `calendar` sont un lien relatif vers les icals
-- La case `name` est affiché à l'écran, le `key` est utilisé par _react_ et pour les liens
-
-Un tel fichier peut être généré à partir des icals. Depuis la racine du dépôt:
-1. placer les iCal dans `/{groupes,cours,profs,salles}`
-2. placer le fichier `/config/personnel.json` depuis https://github.com/HEB-ESI/he2besi-web/raw/master/jekyllsrc/_data/personnels.json
-3. Generer le fichier avec l'une des deux commandes ci-dessous
-
-```bash
-$ yarn generate:config ical/2021-2022/q2/
-$ npm run generate:config -- ical/2021-2022/q2/
-```
-
-Le fichier de configuration des calendriers est fetch au chargement de la page à l'adresse `protocol://domain-name.be:port/config/calendars.json`
-Si le fichier est mal formé ou non présent, cela fait planter le site. Et c'est entièrement votre faute! 😈
-
-Have fun!
+Un tel fichier de configuration peut être généré à partir des ics : voir le dépôt avec les ics pour le fonctionnement.
 
 # Déploiement via Github
 

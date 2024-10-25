@@ -1,17 +1,17 @@
 const configUrl: string = require('./configUrl.json')
 
 interface Resource {
-  name: string
-  calendar: string // url vers l'ics
+  name: string // nom long
+  code: string // nom court
 }
 
-interface CalendarResources {
-  [key: string]: Resource
-}
+// interface CalendarResources {
+//   [key: string]: Resource
+// }
 
 interface CalendarCategory {
   name: string
-  items: CalendarResources
+  items: Resource[]
 }
 
 interface CalendarData {
