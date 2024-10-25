@@ -31,7 +31,7 @@ const parseDesc = (description: string) => {
       case 'Enseignants':
         key = 'profs'
         obj.profs = value.split(', ').map(prof => {
-          const [code, name] = prof.split('-')
+          const [code, name] = prof.split(' - ')
           return { code, name: name ?? code }
         })
         break
