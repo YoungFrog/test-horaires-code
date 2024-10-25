@@ -60,12 +60,12 @@ const EventModal = (props: {
                     </tr>
                   )}
 
-                  {eventAttributes.lieux && (
+                  {eventAttributes.salles && (
                     <tr>
                       <th scope="row">Locaux</th>
                       <td>
                         <ul>
-                          {eventAttributes.lieux.map(lieu => (
+                          {eventAttributes.salles.map(lieu => (
                             <li key={lieu}>
                               <a
                                 onClick={() => {

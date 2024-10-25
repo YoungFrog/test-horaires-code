@@ -3,7 +3,7 @@ interface EventAttributes {
   groupes?: string[]
   profs?: string[]
   profacros?: string[]
-  lieux?: string[]
+  salles?: string[]
   type?: string
 }
 
@@ -34,7 +34,7 @@ const parseDesc = (description: string) => {
         break
       case 'Salle':
       case 'Salles':
-        obj.lieux = value.split(', ')
+        obj.salles = value.split(', ')
         break
       case 'Type':
         obj.type = value
