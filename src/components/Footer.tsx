@@ -19,14 +19,16 @@ const Footer = (): JSX.Element => {
               </a>
               <br />
               <a href="mailto:esi-horaires@he2b.be?subject=Mail from horaires.esi-bru.be /">
-                <i className="fa fa-paper-plane" aria-hidden="true" /> Contact horaires
+                <i className="fa fa-paper-plane" aria-hidden="true" />
+                Contact horaires
               </a>
             </p>
             <p className="text-muted">
               <i>
                 - v1 « À l&rsquo;arrache » par Pierre, Nicolas (Némo) et
                 Frédéric (Sébastien)
-                <br />- v2 « Marie revisitée » par Andrews, v2.1 « Peu me chaut » par Nicolas (Némo)
+                <br />- v2 « Marie revisitée » par Andrews, v2.1 « Peu me
+                chaut » par Nicolas (Némo)
               </i>
             </p>
             <p className="text-muted small">

@@ -66,9 +66,9 @@ const App = (props: CalendarConfig): JSX.Element => {
     () =>
       icsUrl
         ? {
-          url: icsUrl,
-          format: 'ics'
-        }
+            url: icsUrl,
+            format: 'ics'
+          }
         : undefined,
     [icsUrl]
   )
