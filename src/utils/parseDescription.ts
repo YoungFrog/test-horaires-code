@@ -1,3 +1,5 @@
+//FIXME: I changed this file in the other code base... probably asking for trouble, am I ?
+
 interface EventAttributes {
   aa?: string
   groupes?: string[]
