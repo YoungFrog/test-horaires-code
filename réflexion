@@ -1,0 +1,79 @@
+Je réfléchis tout haut.
+Pour l'instant notre calendars.json ressemble à ça :
+
+```
+default: groupesroot: ical/
+data:
+  profs:
+    name: profs
+    items:
+      ABE:
+        name: ABE
+        calendar: profs/ABE.ics
+      ...
+  groupes:
+    name: groupes
+    items:
+      A111:
+        name: A111
+        calendar: groupes/A111.ics
+      ...
+  salles:
+    name: salles
+    items:
+      '101':
+        name: '101'
+        calendar: salles/101.ics
+      ...
+  cours:
+    name: cours
+    items:
+      1ALG1A:
+        name: 1ALG1A
+        calendar: cours/1ALG1A.ics
+      ...
+```
+
+j'aimerais pour chaque élément avoir la possibilité d'un nom court et un nom long. pour les cours : ce serait la clef (1ALG1A) vs la propriété name (qui pourrait être Algorithmique 1?).pour les profs ce serait l'acronyme vs le nom de la personne
+
+pour les cours : Actuellement les ics de l'esi ne permettent pas de récupérer le nom du cours (cf https://github.com/HEB-ESI/horaires-ics/blob/main/export-cours/1ALG1A.ics) mais l'ics de l'isib oui (dans le nom du fichier, cf https://github.com/YoungFrog/test-horaires/blob/main/export-cours/1SE0203%20Outils%20info.ics).
+Cela étant je pense que ce n'est pas grave : on peut toujours dire qu'en l'absence de nom long, on utilise le code. ça me semble donc jouable sans modification.
+
+pour les profs : à l'esi on a "NRI - RICHARD", à l'isib on a "Richard N." dans les ics... il n'y a pas de code court à l'isib et je crois que c'est pas grave : on l'absence de code court, on utilise le nom long.
+ça me semble donc jouable sans modification.
+
+J'imagine passer à quelque chose comme ça :
+
+```
+default: groupesroot: ical/
+data:
+  profs:
+    name: enseignants
+    items[]:
+        code: ABE
+        name: Abderrahmen Belfkih (ABE)
+      ...
+  groupes:
+    name: groupes
+    items[]:
+        code: A111
+        name: A111
+      ...
+  salles:
+    name: salles
+    items[]:
+        code: 101
+        name: 101
+  cours:
+    name: cours
+    items[]:
+        code: 1ALG1A
+        name: Algorithmique 1 (1ALG1A)
+```
+
+Un élément élément qui me gêne actuellement est qu'on parse les .ics de hyperplanning une première fois pour produire les ics "par prof", etc. et on re-parse ces ics là pour produire l'affichage du frontend (la modale). C'est un peu bof mais j'imagine pas si dramatique.
+
+
+profs/groupes/salles/cours
+
+éviter "lieux"

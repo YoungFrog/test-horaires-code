@@ -85,7 +85,10 @@ const ResourceSelector = (props: ResourceSelectorProps): JSX.Element => {
                       setWantExpanded(false)
                       switchToResource(key, categoryKey || undefined)
                     }}
-                    items={mapObject(selectedCategory.items, (k, v) => v.name)}
+                    items={selectedCategory.items.reduce(
+                      (a, item) => ({ ...a, [item.code]: item.name }),
+                      {}
+                    )}
                   />
                 )}
               </div>

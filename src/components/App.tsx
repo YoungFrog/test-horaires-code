@@ -16,7 +16,10 @@ import EventModal from './EventModal'
 
 const findCategoryKey = (config: CalendarConfig, resourceKey: string) => {
   for (const [catKey, cat] of Object.entries(config.data)) {
-    if (Object.keys(cat.items).includes(resourceKey)) return catKey
+    const resource = cat.items.find(
+      elm => elm.code.toLowerCase() === resourceKey.toLowerCase()
+    )
+    if (resource) return catKey
   }
   return null
 }
@@ -30,6 +33,7 @@ const App = (props: CalendarConfig): JSX.Element => {
   const calendar = calendarRef.current
   // ;(window as any).fc = calendar // for testing/debugging purposes
 
+  // définit categoryKey et resourceKey selon l'URL courante, et ajuste l'URL pour refléter l'état actuel de ces propriétés
   useSearchParams([
     ['type', categoryKey, setCategoryKey, props.default],
     ['ressource', resourceKey, setResourceKey],
@@ -37,6 +41,11 @@ const App = (props: CalendarConfig): JSX.Element => {
     ['view', null]
   ])
 
+  /**
+   * Récupère une URL complète pour la vue actuelle, incluant startdate et view.
+   *
+   * @returns une URL qui permet de revenir à la vue courante
+   */
   const currentViewUrl = () => {
     const url = new URL(location.href)
     const startDate = calendar?.getApi().getDate()
@@ -53,11 +62,14 @@ const App = (props: CalendarConfig): JSX.Element => {
 
   const selectedResource =
     resourceKey && categoryKey
-      ? props.data[categoryKey].items[resourceKey]
+      ? props.data[categoryKey].items.find(elt => elt.code === resourceKey)
       : undefined
 
   const icsUrl = selectedResource
-    ? new URL(selectedResource.calendar, props.root).toString()
+    ? new URL(
+        categoryKey + '/' + selectedResource.code + '.ics',
+        props.root
+      ).toString()
     : null
 
   // useMemo avoids re-creating the {url, format} object
