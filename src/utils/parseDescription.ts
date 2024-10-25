@@ -1,9 +1,8 @@
 interface EventAttributes {
-  aa?: string
-  groupes?: string[]
-  profs?: string[]
-  profacros?: string[]
-  salles?: string[]
+  cours?: { code: string; name: string }[]
+  groupes?: { code: string; name: string }[]
+  profs?: { code: string; name: string }[]
+  salles?: { code: string; name: string }[]
   type?: string
 }
 
@@ -19,22 +18,28 @@ const parseDesc = (description: string) => {
 
     switch (key) {
       case 'Matière':
-        obj.aa = value
+        obj.cours = [{ code: value, name: value }]
         break
       case 'TD':
-        obj.groupes = value.split(', ')
+      case 'Promotion':
+      case 'Promotions':
+        obj.groupes = value
+          .split(', ')
+          .map(groupe => ({ code: groupe, name: groupe }))
         break
       case 'Enseignant':
       case 'Enseignants':
         key = 'profs'
-        obj.profs = value.split(', ')
-        if (obj.profs.every(prof => prof.match(/^[A-Z][A-Z][A-Z]\b/))) {
-          obj.profacros = obj.profs.map(prof => prof.slice(0, 3))
-        }
+        obj.profs = value.split(', ').map(prof => {
+          const [code, name] = prof.split(' - ')
+          return { code, name: name ?? code }
+        })
         break
       case 'Salle':
       case 'Salles':
-        obj.salles = value.split(', ')
+        obj.salles = value
+          .split(', ')
+          .map(salle => ({ code: salle, name: salle }))
         break
       case 'Type':
         obj.type = value
@@ -45,5 +50,5 @@ const parseDesc = (description: string) => {
   return obj
 }
 
-export { EventAttributes }
+export { parseDesc }
 export default parseDesc
