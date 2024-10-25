@@ -46,15 +46,18 @@ const EventModal = (props: {
             <div className="modal-body">
               <table className="table">
                 <tbody>
-                  {eventAttributes.aa && (
+                  {eventAttributes.cours?.length && (
                     <tr>
                       <th scope="row">Matière</th>
                       <td>
                         <p
                           onClick={() => {
-                            switchTo(eventAttributes.aa, 'cours')
+                            switchTo(
+                              eventAttributes.cours?.at(0)?.code,
+                              'cours'
+                            )
                           }}>
-                          {eventAttributes.aa}
+                          {eventAttributes.cours[0].name}
                         </p>
                       </td>
                     </tr>
@@ -66,12 +69,12 @@ const EventModal = (props: {
                       <td>
                         <ul>
                           {eventAttributes.salles.map(lieu => (
-                            <li key={lieu}>
+                            <li key={lieu.code}>
                               <a
                                 onClick={() => {
-                                  switchTo(lieu, 'salles')
+                                  switchTo(lieu.code, 'salles')
                                 }}>
-                                {lieu}
+                                {lieu.name}
                               </a>
                             </li>
                           ))}
@@ -87,11 +90,10 @@ const EventModal = (props: {
                         {eventAttributes.profs.map((prof, i) => (
                           <p
                             onClick={() => {
-                              eventAttributes.profacros &&
-                                switchTo(eventAttributes.profacros[i], 'profs')
+                              switchTo(prof.code, 'profs')
                             }}
-                            key={prof}>
-                            {prof}
+                            key={prof.code}>
+                            {prof.name}
                           </p>
                         ))}
                       </td>
@@ -105,10 +107,10 @@ const EventModal = (props: {
                         {eventAttributes.groupes.map(groupe => (
                           <p
                             onClick={() => {
-                              switchTo(groupe, 'groupes')
+                              switchTo(groupe.code, 'groupes')
                             }}
-                            key={groupe}>
-                            {groupe}
+                            key={groupe.code}>
+                            {groupe.name}
                           </p>
                         ))}
                       </td>
