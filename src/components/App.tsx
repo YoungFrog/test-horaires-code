@@ -66,9 +66,9 @@ const App = (props: CalendarConfig): JSX.Element => {
     () =>
       icsUrl
         ? {
-          url: icsUrl,
-          format: 'ics'
-        }
+            url: icsUrl,
+            format: 'ics'
+          }
         : undefined,
     [icsUrl]
   )
@@ -189,7 +189,7 @@ const App = (props: CalendarConfig): JSX.Element => {
           viewClassNames={() => [icsUrl ? 'visible' : 'invisible']}
           customButtons={{
             viewlink: {
-              text: 'Copier l\'URL de la vue actuelle',
+              text: "Copier l'URL de la vue actuelle",
               click: async () => {
                 await navigator.clipboard.writeText(currentViewUrl())
               }

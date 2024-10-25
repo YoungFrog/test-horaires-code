@@ -24,11 +24,13 @@ const Select = (props: SelectProps) => {
         <option disabled value={0}>
           {label}
         </option>
-        {Object.entries(items).sort().map(([key, item]) => (
-          <option key={key} value={key}>
-            {item}
-          </option>
-        ))}
+        {Object.entries(items)
+          .sort()
+          .map(([key, item]) => (
+            <option key={key} value={key}>
+              {item}
+            </option>
+          ))}
       </select>
     </div>
   )
