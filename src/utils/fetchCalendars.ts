@@ -38,6 +38,11 @@ const fetchCalendars = async (): Promise<CalendarConfig> => {
     }))
 }
 
-export { CalendarConfig, Resource }
+const freeEventsUrl: string = new URL(
+  'freeevents.json',
+  new URL(configUrl, location.href)
+).toString()
+
+export { CalendarConfig, Resource, freeEventsUrl }
 
 export default fetchCalendars

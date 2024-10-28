@@ -8,11 +8,14 @@ module.exports = {
     new MomentTimezoneDataPlugin({
       matchZones: 'Europe/Brussels',
       startYear: 2020,
-      endYear: (new Date().getFullYear()) + 10
+      endYear: new Date().getFullYear() + 10
     }),
     new MomentLocalesPlugin()
   ],
-  entry: './src/index.tsx',
+  entry: {
+    app: './src/index.tsx',
+    freerooms: './src/freerooms.tsx'
+  },
   module: {
     rules: [
       {
@@ -35,8 +38,8 @@ module.exports = {
   },
   mode: 'development',
   output: {
-    filename: 'app.js',
-    path: path.resolve(__dirname, './dist')
+    filename: '[name].js',
+    path: path.resolve(__dirname, './dist/')
   },
   devServer: {
     static: './',

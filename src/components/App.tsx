@@ -3,12 +3,13 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import iCalendarPlugin from '@fullcalendar/icalendar'
 import frLocale from '@fullcalendar/core/locales/fr'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import momentTimezonePlugin from '@fullcalendar/moment-timezone'
 import { Nullable } from '../utils/types'
 import useSearchParams from '../hooks/useSearchParams'
 import useTitle from '../hooks/useTitle'
 import { CalendarConfig } from '../utils/fetchCalendars'
+import useKeyboardNav from '../hooks/useKeyboardNav'
 import ResourceSelector from './ResourceSelector'
 import Footer from './Footer'
 import CalLink from './CalLink'
@@ -29,8 +30,7 @@ const App = (props: CalendarConfig): JSX.Element => {
 
   const [categoryKey, setCategoryKey] = useState<Nullable<string>>(null)
   const [resourceKey, setResourceKey] = useState<Nullable<string>>(null)
-  const calendarRef = useRef<FullCalendar>(null)
-  const calendar = calendarRef.current
+
   // ;(window as any).fc = calendar // for testing/debugging purposes
 
   // définit categoryKey et resourceKey selon l'URL courante, et ajuste l'URL pour refléter l'état actuel de ces propriétés
@@ -47,6 +47,7 @@ const App = (props: CalendarConfig): JSX.Element => {
    * @returns une URL qui permet de revenir à la vue courante
    */
   const currentViewUrl = () => {
+    const calendar = calendarRef.current
     const url = new URL(location.href)
     const startDate = calendar?.getApi().getDate()
     if (startDate) {
@@ -102,45 +103,7 @@ const App = (props: CalendarConfig): JSX.Element => {
     },
     [props]
   )
-
-  const listenKeys = (e: KeyboardEvent) => {
-    if (!e.shiftKey && !e.ctrlKey && !e.altKey) {
-      let found = true
-      switch (e.key) {
-        case 'ArrowLeft':
-          calendar?.getApi().prev()
-          break
-        case 'ArrowRight':
-          calendar?.getApi().next()
-          break
-        case 'm':
-          calendar?.getApi().changeView('dayGridMonth')
-          break
-        case 'd':
-          calendar?.getApi().changeView('timeGridDay')
-          break
-        case 'w':
-          calendar?.getApi().changeView('timeGridWeek')
-          break
-        case 'g':
-          // eslint-disable-next-line no-case-declarations
-          const target = prompt(
-            'What do you want to display ?',
-            'B111'
-          )?.toUpperCase()
-          if (target) switchToResource(target)
-          break
-        default:
-          found = false
-      }
-      if (found) e.preventDefault()
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('keydown', listenKeys)
-    return () => window.removeEventListener('keydown', listenKeys)
-  })
+  const calendarRef = useKeyboardNav(switchToResource)
 
   if (!props.data || !props.default || !props.root) {
     return <pre>Pas de chance, le site est cassé..</pre>

@@ -34,7 +34,7 @@ jobs:
           printf '"%s"' "$CONFIG_FILE_URL"  >src/utils/configUrl.json
           yarn build
           mkdir build
-          cp -r css index.html dist img LICENSE -t build
+          cp -r css index.html dist img LICENSE freerooms.html -t build
           
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.3.3
