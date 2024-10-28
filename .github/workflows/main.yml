@@ -8,7 +8,7 @@ on:
 
 # defined as a secret in order to be repository-dependent
 env:
-  CONFIG_FILE_URL: ${{ secrets.CALENDARS_JSON }}
+  CONFIG_FILE_URL: ${{ vars.CALENDARS_JSON }}
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
       - name: check for config file
         if: ${{env.CONFIG_FILE_URL == ''}}
         run: |
-          echo "No CALENDARS_JSON secret !"
+          echo "No CALENDARS_JSON variable !"
           exit 1
 
       - uses: actions/checkout@v3

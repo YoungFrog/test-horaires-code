@@ -157,7 +157,7 @@ Un tel fichier de configuration peut être généré à partir des ics : voir le
 # Déploiement via Github
 
 1. Créer un dépôt sur Github avec le contenu du présent dépôt (p.ex. fork)
-2. définir le secret CALENDARS_JSON vers une url contenant les ics (TODO: faire une variable plutôt qu'un secret.). Par exemple /nom-du-depot-ics/calendars.json
+2. définir la variable CALENDARS_JSON vers une url contenant les ics. Par exemple /nom-du-depot-ics/calendars.json
 3. in the action settings : give read AND WRITE permission to Workflow
 4. une fois que la branche gh-pages a été créée (par le processus de déploiement normalement), on la définit comme branche utilisée par Github Pages (dans les paramètres)
 
