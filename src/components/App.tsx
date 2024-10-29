@@ -46,15 +46,18 @@ const App = (props: CalendarConfig): JSX.Element => {
    *
    * @returns une URL qui permet de revenir à la vue courante
    */
-  const currentViewUrl = () => {
+  const currentViewUrl = (): string => {
     const calendar = calendarRef.current
+    if (!calendar) {
+      throw Error('calendarRef.current is undefined')
+    }
     const url = new URL(location.href)
-    const startDate = calendar?.getApi().getDate()
+    const startDate = calendar.getApi().getDate()
     if (startDate) {
-      startDate?.setHours(12) // since the timezone is fixed to Europe/Brussels, "today at noon" is always the same as "today in GMT"
+      startDate.setHours(12) // since the timezone is fixed to Europe/Brussels, "today at noon" is always the same as "today in GMT"
       url.searchParams.set('startdate', startDate.toISOString().slice(0, 10))
     }
-    const view = calendar?.getApi().view.type
+    const view = calendar.getApi().view.type
     if (view) {
       url.searchParams.set('view', view)
     }
