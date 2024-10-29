@@ -1,5 +1,5 @@
 import { EventApi } from '@fullcalendar/react'
-import { useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 import parseDescription from '../utils/parseDescription'
 
 const EventModal = (props: {
@@ -23,6 +23,29 @@ const EventModal = (props: {
     return () => window.removeEventListener('keydown', listenEscapeKey)
   })
 
+  function afficherLigne(
+    items: { code: string; name: string }[] | undefined,
+    titre: string,
+    type: string
+  ): ReactNode {
+    return (
+      items?.length && (
+        <tr>
+          <th scope="row">{titre}</th>
+          <td>
+            <ul className="list-unstyled">
+              {items.map(thing => (
+                <li key={thing.code} onClick={() => switchTo(thing.code, type)}>
+                  {thing.name}
+                </li>
+              ))}
+            </ul>
+          </td>
+        </tr>
+      )
+    )
+  }
+
   return (
     <>
       <div
@@ -44,78 +67,12 @@ const EventModal = (props: {
               />
             </div>
             <div className="modal-body">
-              <table className="table">
+              <table className="table table-sm">
                 <tbody>
-                  {eventAttributes.cours?.length && (
-                    <tr>
-                      <th scope="row">Matière</th>
-                      <td>
-                        <p
-                          onClick={() => {
-                            switchTo(
-                              eventAttributes.cours?.at(0)?.code,
-                              'cours'
-                            )
-                          }}>
-                          {eventAttributes.cours[0].name}
-                        </p>
-                      </td>
-                    </tr>
-                  )}
-
-                  {eventAttributes.salles && (
-                    <tr>
-                      <th scope="row">Locaux</th>
-                      <td>
-                        <ul>
-                          {eventAttributes.salles.map(lieu => (
-                            <li key={lieu.code}>
-                              <a
-                                onClick={() => {
-                                  switchTo(lieu.code, 'salles')
-                                }}>
-                                {lieu.name}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </td>
-                    </tr>
-                  )}
-
-                  {eventAttributes.profs && (
-                    <tr>
-                      <th scope="row">Professeurs</th>
-                      <td>
-                        {eventAttributes.profs.map((prof, i) => (
-                          <p
-                            onClick={() => {
-                              switchTo(prof.code, 'profs')
-                            }}
-                            key={prof.code}>
-                            {prof.name}
-                          </p>
-                        ))}
-                      </td>
-                    </tr>
-                  )}
-
-                  {eventAttributes.groupes && (
-                    <tr>
-                      <th scope="row">Groupes</th>
-                      <td>
-                        {eventAttributes.groupes.map(groupe => (
-                          <p
-                            onClick={() => {
-                              switchTo(groupe.code, 'groupes')
-                            }}
-                            key={groupe.code}>
-                            {groupe.name}
-                          </p>
-                        ))}
-                      </td>
-                    </tr>
-                  )}
+                  {afficherLigne(eventAttributes.cours, 'Matière', 'cours')}
+                  {afficherLigne(eventAttributes.salles, 'Locaux', 'salles')}
+                  {afficherLigne(eventAttributes.profs, 'Professeurs', 'profs')}
+                  {afficherLigne(eventAttributes.groupes, 'Groupes', 'groupes')}
 
                   {eventAttributes.type && (
                     <tr>
