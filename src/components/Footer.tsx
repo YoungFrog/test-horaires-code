@@ -23,6 +23,11 @@ const Footer = (): JSX.Element => {
                 <i className="fa fa-paper-plane" aria-hidden="true" />
                 Contact horaires
               </a>
+              <br />
+              <a href="freerooms.html">
+                <i className="fa fa-calendar" aria-hidden="true" />
+                Liberté des salles
+              </a>
             </p>
             <p className="text-muted">
               <i>
@@ -36,7 +41,7 @@ const Footer = (): JSX.Element => {
               <a href="https://git.esi-bru.be/pbt/displaytimetable/-/raw/master/LICENSE">
                 MIT licence
               </a>{' '}
-              - 2020-2022
+              - 2020-2024
             </p>
           </div>
         </div>
