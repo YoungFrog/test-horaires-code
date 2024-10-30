@@ -12,26 +12,42 @@ say() {
     printf "%s\n" "$*"
 }
 
+if [[ $# -gt 0 ]]; then
+   icsrepo="$1"
+fi
+
 if ! [[ -d ical/ ]] || ! [[ -f calendars.json ]]; then
     
-    if [[ -e ical ]] || [[ -e calendars.json ]]
+    if [[ -e ical ]] || [[ -e calendars.json ]] || [[ -e events.json ]] || [[ -e freeevents.json ]]
     then
-        die "You seem to have an ical/ or calendars.json dir. Move them away and try again."
+        die "You seem to have an ical/ or calendars.json or events.json. Move them away and try again."
     fi
 
-    warn "no ical/ or config file found. Trying to download them..."
-    set -o pipefail
-    reponame=horaires-ics
-    repobase=https://github.com/HEB-ESI
-    branch=gh-pages
-    if wget -O- "$repobase/$reponame/archive/refs/heads/$branch.tar.gz" |
-            tar -zx --strip-components=1 "$reponame-$branch/ical" "$reponame-$branch/calendars.json"
-    then
-        warn "that seems to have worked. great !"
+    if [[ -n $icsrepo ]] && [[ -d $icsrepo ]]; then
+        warn "no ical/ or config file found. Trying to generate them..."
+        tmp=$(mktemp)
+        node "$icsrepo/scripts/getEvents.mjs" -d "$icsrepo/export-cours/" >events.json || die "Could not generate events.json"
+        mkdir -p ical/{cours,groupes,profs,salles}
+        node "$icsrepo/scripts/generate-ics-and-config-file.mjs" ical/ ./events.json ./calendars.json || die
+        ( cd "$icsrepo"; npx tsc --outfile "$tmp" "$icsrepo/scripts/freerooms.ts"; )  || die
+        node "$tmp" ./events.json > ./freeevents.json  || die
+        rm "$tmp"
     else
-        die "Could not retrieve ical + config file. Grab 'em at $repobase/$reponame/tree/$branch/ical"
+        warn "no ical/ or config file found. Trying to download them..."
+        set -o pipefail
+        reponame=horaires-ics
+        repobase=https://github.com/HEB-ESI
+        branch=gh-pages
+        if wget -O- "$repobase/$reponame/archive/refs/heads/$branch.tar.gz" |
+                tar -zx --strip-components=1 "$reponame-$branch/ical" "$reponame-$branch/calendars.json"
+        then
+            warn "that seems to have worked. great !"
+        else
+            die "Could not retrieve ical + config file. Grab 'em at $repobase/$reponame/tree/$branch/ical"
+        fi
     fi
-    
+else
+    warn "Using existing ical/ dir and config files."
 fi
 
 docker run --rm \
