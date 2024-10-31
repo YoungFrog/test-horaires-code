@@ -1,4 +1,5 @@
 /* eslint-disable no-irregular-whitespace */
+import { configRoot } from '../utils/fetchCalendars'
 import Logo from './Logo'
 
 const Footer = (): JSX.Element => {
@@ -27,6 +28,11 @@ const Footer = (): JSX.Element => {
               <a href="freerooms.html">
                 <i className="fa fa-calendar" aria-hidden="true" />
                 Liberté des salles
+              </a>
+              <br />
+              <a href={configRoot}>
+                <i className="fa fa-code-fork" aria-hidden="true" />
+                Diff
               </a>
             </p>
             <p className="text-muted">

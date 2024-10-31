@@ -43,6 +43,11 @@ const freeEventsUrl: string = new URL(
   new URL(configUrl, location.href)
 ).toString()
 
-export { CalendarConfig, Resource, freeEventsUrl }
+const configRoot: string = new URL(
+  '.',
+  new URL(configUrl, location.href)
+).toString()
+
+export { CalendarConfig, Resource, freeEventsUrl, configRoot }
 
 export default fetchCalendars
