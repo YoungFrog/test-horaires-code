@@ -4,6 +4,7 @@ import { Nullable } from '../utils/types'
 import Select from './Select'
 
 interface ResourceSelectorProps {
+  title: string
   config: CalendarConfig
   categoryKey: Nullable<string>
   resourceKey: Nullable<string>
@@ -63,7 +64,7 @@ const ResourceSelector = (props: ResourceSelectorProps): JSX.Element => {
               aria-controls="collapseOne"
               /* setWantExpanded(collapsed) is equivalent to: setWantExpanded(!expanded) */
               onClick={() => setWantExpanded(collapsed)}>
-              <strong>{resourceKey ?? 'Parcourir les horaires..'}</strong>
+              <strong>{props.title}</strong>
             </button>
           </h2>
           <div

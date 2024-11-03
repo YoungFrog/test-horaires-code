@@ -30,6 +30,7 @@ const App = (props: CalendarConfig): JSX.Element => {
 
   const [categoryKey, setCategoryKey] = useState<Nullable<string>>(null)
   const [resourceKey, setResourceKey] = useState<Nullable<string>>(null)
+  const [isLoading, setIsLoading] = useState<Boolean>(false)
 
   // ;(window as any).fc = calendar // for testing/debugging purposes
 
@@ -121,13 +122,22 @@ const App = (props: CalendarConfig): JSX.Element => {
     <>
       <main className="container-fluid mt-3">
         <ResourceSelector
+          title={
+            !resourceKey
+              ? 'Parcourir les horaires..'
+              : !selectedResource
+              ? 'Horaire introuvable'
+              : isLoading
+              ? 'Chargement en cours'
+              : resourceKey
+          }
           config={props}
           categoryKey={categoryKey}
           resourceKey={resourceKey}
           switchToResource={switchToResource}
         />
-
         <FullCalendar
+          loading={setIsLoading}
           ref={calendarRef}
           plugins={[
             timeGridPlugin,
@@ -175,6 +185,7 @@ const App = (props: CalendarConfig): JSX.Element => {
           }}
           eventSourceFailure={errorObj => {
             console.log(errorObj)
+            switchToResource(undefined)
             alert(
               'could not fetch events. please check connection and refresh.'
             )
