@@ -138,6 +138,7 @@ const App = (props: CalendarConfig): JSX.Element => {
         />
         <FullCalendar
           loading={setIsLoading}
+          nowIndicator
           ref={calendarRef}
           plugins={[
             timeGridPlugin,
