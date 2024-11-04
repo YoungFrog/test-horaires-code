@@ -102,3 +102,7 @@ ul.inline > li {
     --fc-event-bg-color: rgba(55, 136, 216,0.6);  /* default is rgb(55, 136, 216); */
     color: rgba(55, 136, 216,0.6); /* default is rgb(10, 88, 202) */
 }
+
+:root {
+    --fc-now-indicator-color: lightgrey
+}
