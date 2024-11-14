@@ -39,12 +39,6 @@
         "@babel/preset-react": "^7.14",
         "@babel/preset-typescript": "^7.15",
         "@babel/runtime": "^7.15",
-        "@fullcalendar/core": "^5.11.0",
-        "@fullcalendar/daygrid": "^5.11.0",
-        "@fullcalendar/icalendar": "^5.11.0",
-        "@fullcalendar/list": "^5.11.0",
-        "@fullcalendar/react": "^5.11.1",
-        "@fullcalendar/timegrid": "^5.11.0",
         "@types/react": "^18.0.12",
         "@types/react-dom": "^18.0.5",
         "@typescript-eslint/eslint-plugin": "^4.31.0",
@@ -78,9 +72,16 @@
         "webpack-notifier": "^1.13"
     },
     "dependencies": {
-        "@fullcalendar/moment-timezone": "^5.11.0",
+        "@fullcalendar/core": "^6.1.15",
+        "@fullcalendar/daygrid": "^6.1.15",
+        "@fullcalendar/icalendar": "^6.1.15",
+        "@fullcalendar/list": "^6.1.15",
+        "@fullcalendar/moment-timezone": "^6.1.15",
+        "@fullcalendar/react": "^6.1.15",
+        "@fullcalendar/timegrid": "^6.1.15",
         "eslint-plugin-react-hooks": "^4.6.0-next-f7b44539c-20220610",
+        "ical.js": "^1.4.0",
         "moment": "^2.29.3",
-        "moment-timezone": "^0.5.34"
+        "moment-timezone": "^0.5.40"
     }
 }

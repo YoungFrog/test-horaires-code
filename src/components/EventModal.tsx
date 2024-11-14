@@ -1,4 +1,4 @@
-import { EventApi } from '@fullcalendar/react'
+import { EventApi } from '@fullcalendar/core'
 import { ReactNode, useEffect } from 'react'
 import parseDescription from '../utils/parseDescription'
 
