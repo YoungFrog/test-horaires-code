@@ -9,7 +9,7 @@ const IconLink = (props: {
   href: string
 }): JSX.Element => (
   <a href={props.href} target="_blank" rel="noreferrer">
-    <i className={`fa ${props.icon}`} aria-hidden="true" />
+    <i className={`fa ${props.icon} iconlink`} aria-hidden="true" />
     {props.children}
   </a>
 )

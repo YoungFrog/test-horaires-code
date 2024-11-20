@@ -108,3 +108,8 @@ ul.inline > li {
 :root {
     --fc-now-indicator-color: #f54298
 }
+
+.iconlink {
+    width: 1.2rem;
+    text-align: center;
+}
