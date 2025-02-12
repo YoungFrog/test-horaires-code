@@ -58,7 +58,7 @@
         "global": "^4.4.0",
         "mini-css-extract-plugin": "^2.2.2",
         "moment-locales-webpack-plugin": "^1.2.0",
-        "moment-timezone-data-webpack-plugin": "^1.5.0",
+        "moment-timezone-data-webpack-plugin": "^1.5.1",
         "prettier": "^2.6.2",
         "react": "^18",
         "react-dom": "^18.0",
@@ -81,7 +81,6 @@
         "@fullcalendar/timegrid": "^6.1.15",
         "eslint-plugin-react-hooks": "^4.6.0-next-f7b44539c-20220610",
         "ical.js": "^1.4.0",
-        "moment": "^2.29.3",
-        "moment-timezone": "^0.5.40"
+        "moment-timezone": "^0.5.47"
     }
 }
