@@ -1,6 +1,18 @@
 /* eslint-disable no-irregular-whitespace */
+import { ReactNode } from 'react'
 import { configRoot } from '../utils/fetchCalendars'
 import Logo from './Logo'
+
+const IconLink = (props: {
+  children: ReactNode
+  icon: string
+  href: string
+}): JSX.Element => (
+  <a href={props.href} target="_blank" rel="noreferrer">
+    <i className={`fa ${props.icon} iconlink`} aria-hidden="true" />
+    {props.children}
+  </a>
+)
 
 const Footer = (): JSX.Element => {
   return (
@@ -12,28 +24,25 @@ const Footer = (): JSX.Element => {
           </div>
           <div className="col-10">
             <p className="text-muted">
-              <a
-                href="https://git.esi-bru.be/pbt/displaytimetable"
-                target="_blank"
-                rel="noreferrer">
-                <i className="fa fa-gitlab" aria-hidden="true" /> Dépôt{' '}
-                <i>gitesi</i>
-              </a>
+              <IconLink
+                icon="fa-gitlab"
+                href="https://git.esi-bru.be/pbt/displaytimetable">
+                Dépôt <i>gitesi</i>
+              </IconLink>
               <br />
-              <a href="mailto:esi-horaires@he2b.be?subject=Mail from horaires.esi-bru.be /">
-                <i className="fa fa-paper-plane" aria-hidden="true" />
+              <IconLink
+                icon="fa-paper-plane"
+                href="mailto:esi-horaires@he2b.be?subject=Mail from horaires.esi-bru.be /">
                 Contact horaires
-              </a>
+              </IconLink>
               <br />
-              <a href="freerooms.html">
-                <i className="fa fa-calendar" aria-hidden="true" />
+              <IconLink href="freerooms.html" icon="fa fa-calendar">
                 Liberté des salles
-              </a>
+              </IconLink>
               <br />
-              <a href={configRoot}>
-                <i className="fa fa-code-fork" aria-hidden="true" />
+              <IconLink href={configRoot} icon="fa-code-fork">
                 Diff
-              </a>
+              </IconLink>
             </p>
             <p className="text-muted">
               <i>

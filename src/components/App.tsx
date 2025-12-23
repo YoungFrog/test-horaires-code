@@ -1,4 +1,5 @@
-import FullCalendar, { EventApi, EventClickArg } from '@fullcalendar/react'
+import FullCalendar from '@fullcalendar/react'
+import { EventApi, EventClickArg } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import iCalendarPlugin from '@fullcalendar/icalendar'
