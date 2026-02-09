@@ -15,6 +15,7 @@ import ResourceSelector from './ResourceSelector'
 import Footer from './Footer'
 import CalLink from './CalLink'
 import EventModal from './EventModal'
+import LegendModal from './LegendModal'
 
 const findCategoryKey = (config: CalendarConfig, resourceKey: string) => {
   for (const [catKey, cat] of Object.entries(config.data)) {
@@ -26,8 +27,9 @@ const findCategoryKey = (config: CalendarConfig, resourceKey: string) => {
   return null
 }
 
-const App = (props: CalendarConfig): JSX.Element => {
+const App = (config: CalendarConfig): JSX.Element => {
   const [selectedEvent, setSelectedEvent] = useState(null as EventApi | null)
+  const [legend, setLegend] = useState(false)
 
   const [categoryKey, setCategoryKey] = useState<Nullable<string>>(null)
   const [resourceKey, setResourceKey] = useState<Nullable<string>>(null)
@@ -37,7 +39,7 @@ const App = (props: CalendarConfig): JSX.Element => {
 
   // définit categoryKey et resourceKey selon l'URL courante, et ajuste l'URL pour refléter l'état actuel de ces propriétés
   useSearchParams([
-    ['type', categoryKey, setCategoryKey, props.default],
+    ['type', categoryKey, setCategoryKey, config.default],
     ['ressource', resourceKey, setResourceKey],
     ['startdate', null /* remove from URL */],
     ['view', null]
@@ -68,13 +70,13 @@ const App = (props: CalendarConfig): JSX.Element => {
 
   const selectedResource =
     resourceKey && categoryKey
-      ? props.data[categoryKey].items.find(elt => elt.code === resourceKey)
+      ? config.data[categoryKey].items.find(elt => elt.code === resourceKey)
       : undefined
 
   const icsUrl = selectedResource
     ? new URL(
         categoryKey + '/' + selectedResource.code + '.ics',
-        props.root
+        config.root
       ).toString()
     : null
 
@@ -102,15 +104,15 @@ const App = (props: CalendarConfig): JSX.Element => {
       setSelectedEvent(null)
       setCategoryKey(
         categoryKey ??
-          (resourceKey ? findCategoryKey(props, resourceKey) : null)
+          (resourceKey ? findCategoryKey(config, resourceKey) : null)
       )
       setResourceKey(resourceKey ?? null)
     },
-    [props]
+    [config]
   )
   const calendarRef = useKeyboardNav(switchToResource)
 
-  if (!props.data || !props.default || !props.root) {
+  if (!config.data || !config.default || !config.root) {
     return <pre>Pas de chance, le site est cassé..</pre>
   }
 
@@ -132,7 +134,7 @@ const App = (props: CalendarConfig): JSX.Element => {
               ? 'Chargement en cours'
               : resourceKey
           }
-          config={props}
+          config={config}
           categoryKey={categoryKey}
           resourceKey={resourceKey}
           switchToResource={switchToResource}
@@ -153,7 +155,7 @@ const App = (props: CalendarConfig): JSX.Element => {
           weekends={true}
           hiddenDays={[0]}
           headerToolbar={{
-            start: 'prev today next viewlink',
+            start: 'prev today next viewlink legend',
             center: 'title',
             end: 'dayGridMonth timeGridWeek timeGridDay'
           }}
@@ -183,6 +185,10 @@ const App = (props: CalendarConfig): JSX.Element => {
               click: async () => {
                 await navigator.clipboard.writeText(currentViewUrl())
               }
+            },
+            legend: {
+              text: 'Légende',
+              click: () => setLegend(true)
             }
           }}
           eventSourceFailure={errorObj => {
@@ -192,6 +198,19 @@ const App = (props: CalendarConfig): JSX.Element => {
               'could not fetch events. please check connection and refresh.'
             )
           }}
+          eventDataTransform={
+            config.transformers &&
+            (evt => {
+              const transformer = config.transformers?.find(transformer =>
+                evt.title?.match(transformer.regex)
+              )
+              if (transformer) {
+                evt.color = transformer.color
+              }
+
+              return evt
+            })
+          }
         />
 
         {icsUrl && <CalLink link={icsUrl} />}
@@ -203,6 +222,12 @@ const App = (props: CalendarConfig): JSX.Element => {
           close={() => setSelectedEvent(null)}
           switchTo={switchToResource}
         />
+      )}
+
+      {legend && config.transformers && (
+        <LegendModal
+          transformers={config.transformers}
+          close={() => setLegend(false)}></LegendModal>
       )}
 
       <Footer />

@@ -1,6 +1,6 @@
 const configUrl: string = require('./configUrl.json')
 
-interface Resource {
+export interface Resource {
   name: string // nom long
   code: string // nom court
 }
@@ -18,10 +18,16 @@ interface CalendarData {
   [key: string]: CalendarCategory
 }
 
-interface CalendarConfig {
+export interface TransformerType {
+  regex: string
+  color: string
+}
+
+export interface CalendarConfig {
   default: string
   root: string
   data: CalendarData
+  transformers?: TransformerType[]
 }
 
 const fetchCalendars = async (): Promise<CalendarConfig> => {
@@ -38,16 +44,14 @@ const fetchCalendars = async (): Promise<CalendarConfig> => {
     }))
 }
 
-const freeEventsUrl: string = new URL(
+export const freeEventsUrl: string = new URL(
   'freeevents.json',
   new URL(configUrl, location.href)
 ).toString()
 
-const configRoot: string = new URL(
+export const configRoot: string = new URL(
   '.',
   new URL(configUrl, location.href)
 ).toString()
-
-export { CalendarConfig, Resource, freeEventsUrl, configRoot }
 
 export default fetchCalendars

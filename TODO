@@ -1,0 +1,37 @@
+Je réfléchis tout haut
+
+
+(de tête) actuellement on a:
+
+- le dépôt de pbt avec le code
+- pour chaque déploiement: 
+  - un dépôt "code", qui génère un site configuré (via variable de dépôt) pour pointer vers un fichier calendars.json spécifique
+  - un dépôt avec les ics, qui génère un fichier calendars.json (poiné par la variable ci-dessus) et des .ics (référencés 
+par calendars.json)
+
+on veut :
+
+un code déployé, qui est configurable (liste des evts, couleurs, titre, etc.)
+des ics déposés qq part
+de la config déposée qq part
+
+quand je veux changer/configurer la couleur, je veux pas modifier le code, mais je veux que le code déployé récupère le 
+changement directement (d'où le json actuel)
+
+
+je pense le plus simple serait d'avoir un "vrai" backend (firestore ok) qui enregistre la config. On peut alors avoir un 
+frontend qui accepte des modifs de config et les enregistre sans passer par git
+
+sinon, on veut pouvoir pousser la config sur une branche dédiée à la config. chaque pousse regénère le calendars.json.
+chaque pousse sur ics regénère aussi calendars.json --
+
+
+peut-être qu'on aurait:
+config.js lié à calendars.json liés aux ics.
+
+on a donc 3 branches:
+main   - le code
+config - config.js
+ics    - calendars.json et .ics
+chaque push rebuild tout (?) pour éviter d'avoir plusieurs dépôts.
+ou alors on peut aller chercher directement la config dans les dépôts via l'api.
