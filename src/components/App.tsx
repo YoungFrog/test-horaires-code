@@ -161,6 +161,7 @@ const App = (config: CalendarConfig): JSX.Element => {
           }}
           slotMinTime="08:00:00"
           slotMaxTime="22:00:00"
+          slotEventOverlap=false
           businessHours={{
             dayOfWeek: [1, 2, 3, 4, 5],
             startTime: '08:15',
